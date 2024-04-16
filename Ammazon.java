@@ -60,7 +60,7 @@ public class Ammazon {
 			System.out.println("yes all brand names started with Samsung");
 
 		}
-		System.out.println("Amazon.....");
+		System.out.println("Amazon....finished.");
 	}
 }
 
