@@ -1,9 +1,12 @@
 package Practice.Questions;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedSet;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -45,6 +48,7 @@ public class Flipkart {
 				"//*[@id=\"container\"]/div/div[3]/div[1]/div[1]/div/div/div/section[8]/div[2]/div[1]/div[5]/div/label/div[2]"));
 		skechers.click();
 		Thread.sleep(5000);
+
 		List<WebElement> shoeTitleElements = driver
 				.findElements(By.xpath("//div[@class='_13oc-S']/div/div/div//div[@class='_2WkVRV']"));
 		List<WebElement> shoePriceElements = driver.findElements(
@@ -55,6 +59,7 @@ public class Flipkart {
 
 		// Create a map to store shoe titles and prices
 		Map<String, Integer> shoeMap = new HashMap<>();
+		List<Integer> prices = new ArrayList<>();
 
 		// Ensure that the loop iterates through all elements
 		for (int i = 0; i < shoeTitleElements.size(); i++) {
@@ -62,15 +67,24 @@ public class Flipkart {
 			WebElement shoePriceElement = shoePriceElements.get(i);
 
 			String title = shoeTitleElement.getText();
+
 			String priceString = shoePriceElement.getText();
 			int price = Integer.parseInt(priceString.substring(1).replaceAll(",", ""));
+			System.out.println(price);
 
-			shoeMap.put(title, price);
+			prices.add(price);
+			// shoeMap.put(title, price);
 		}
+		Collections.sort(prices);
 
-		for (Map.Entry<String, Integer> entry : shoeMap.entrySet()) {
-			System.out.println("Title: " + entry.getKey() + ", Price: " + entry.getValue());
-		}
+		// The second lowest price will be at index 1
+		int secondLowestPrice = prices.get(1);
+
+		System.out.println("Second lowest price: " + secondLowestPrice);
+//		for (Map.Entry<String, Integer> entry : shoeMap.entrySet()) {
+//		System.out.println("Title: " + entry.getKey() + ", Price: " + entry.getValue());
+//		}		
+
 	}
 }
 
