@@ -6,20 +6,27 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedSet;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.WindowType;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-public class Flipkart {
+public class Flipkartttt {
 
 	public static void main(String[] args) throws InterruptedException {
+		// TODO Auto-generated method stub
+
+//WebDriver driver = new ChromeDriver();
+
 		WebDriverManager.chromedriver().setup();
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("--disable-notifications");
@@ -28,6 +35,7 @@ public class Flipkart {
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
 
 		driver.get("https://www.flipkart.com");
+		//((JavascriptExecutor) driver).executeScript("document.body.style.zoom = '0.9'");
 
 		Actions action = new Actions(driver);
 		JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -58,8 +66,10 @@ public class Flipkart {
 		System.out.println("Number of shoe prices: " + shoePriceElements.size());
 
 		// Create a map to store shoe titles and prices
-		Map<String, Integer> shoeMap = new HashMap<>();
+		Map<Integer, String> shoeMap = new HashMap<>();
 		List<Integer> prices = new ArrayList<>();
+
+		String secondLink = new String("");
 
 		// Ensure that the loop iterates through all elements
 		for (int i = 0; i < shoeTitleElements.size(); i++) {
@@ -70,29 +80,71 @@ public class Flipkart {
 
 			String priceString = shoePriceElement.getText();
 			int price = Integer.parseInt(priceString.substring(1).replaceAll(",", ""));
+			shoeMap.put(price, title);
+
 			System.out.println(price);
 
 			prices.add(price);
 			// shoeMap.put(title, price);
 		}
-		Collections.sort(prices);
+		shoeMap.remove(Collections.min(shoeMap.keySet()));
+		int smin = Collections.min(shoeMap.keySet());
 
+		System.out.println("Minimun price is : " + smin);
+		// System.out.println(shoeMap
+		// secondLink = shoeMap.get(smin);
+		// System.out.println(secondLink);
+		String s = new String("");
+		for (int i = 0; i < shoePriceElements.size(); i++) {
+			if (Integer.parseInt(shoePriceElements.get(i).getText().replaceAll("[^0-9]", "")) == smin) {
+				s = (shoePriceElements.get(i) + "/../..");
+				System.out.println(shoePriceElements.get(i) + "/../..");
+			}
+		}
 		// The second lowest price will be at index 1
+		Collections.sort(prices);
 		int secondLowestPrice = prices.get(1);
-
 		System.out.println("Second lowest price: " + secondLowestPrice);
-//		for (Map.Entry<String, Integer> entry : shoeMap.entrySet()) {
-//		System.out.println("Title: " + entry.getKey() + ", Price: " + entry.getValue());
-//		}		
+		driver.findElement(By.xpath(
+				"//div[text()='Skechers']/../a/div/div[1][contains(text(),'₹" + String.format("%,d", smin) + "')]"))
+				.click();
+
+		Set<String> handles = driver.getWindowHandles();
+
+		// Switch to the new tab
+		for (String handle : handles) {
+			if (!handle.equals(driver.getWindowHandle())) {
+				driver.switchTo().window(handle);
+				break;
+			}
+		}
+
+		String ratingsNreviews = driver
+				.findElement(By.xpath(
+						"//*[@id=\"container\"]/div/div[3]/div[1]/div[2]/div[2]/div/div[4]/div/div/span[2]/span"))
+				.getText();
+		System.out.println(ratingsNreviews);
+		driver.findElement(By.xpath("//a[text()='7']")).click();
+
+		String priceOfShoe = driver.findElement(By.xpath("//div[@class='_30jeq3 _16Jk6d' and contains(text(),'₹')]"))
+				.getText();
+		System.out.println(priceOfShoe);
+		// driver.findElement(By.xpath("//span[text()='Rate Product']")).click();
+		// String messageDesplayed1 =
+		// driver.findElement(By.xpath("//div[@class='_3ISAFp']")).getText();
+		// String messageDesplayed2 =
+		// driver.findElement(By.xpath("//div[@class='_3dHsYX']")).getText();
+		// System.out.println(messageDesplayed1);
+		// System.out.println(messageDesplayed2);
+		
+		//js.executeScript("arguments[0].scrollIntoView();", addtoCart);
+		//js.executeAsyncScript("window.scrollBy(0,1900);");
+		//Thread.sleep(3000);
+
+		WebElement addtoCart = driver.findElement(By.xpath("//button[text()='Add to cart']"));
+
+		addtoCart.click();
+		System.out.println("clciked");
 
 	}
 }
-
-/*
- * for (WebElement eachShoe : shoeTitle) {
- * System.out.println(eachShoe.getText()); }
- * 
- * for (WebElement eachPrice : shoePrice) { String s = eachPrice.getText(); int
- * price = Integer.parseInt(s.substring(1).replaceAll(",", ""));
- * System.out.println(price); }
- */

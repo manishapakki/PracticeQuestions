@@ -34,7 +34,7 @@ public class Zomato {
 				.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@placeholder='Chennai']")));
 		locationInput.click();
 		locationInput.sendKeys("Velacherry");
-
+		
 		WebElement velacheryOption = wait
 				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[contains(text(),'Velachery')]")));
 		velacheryOption.click();
@@ -107,7 +107,7 @@ public class Zomato {
 		// Print the sweet with the highest price
 		System.out.println("Sweet with the highest price: " + sweetWithHighestPrice);
 
-//		Clik photos&validate the no_photos listed matches the total no imagesdisplayed across the listed pages.
+		//Clik photos&validate the no_photos listed matches the total no imagesdisplayed across the listed pages.
 		Thread.sleep(5000);
 		driver.findElement(By.xpath("//a[text()='Photos']")).click();
 		String AllnoShown = driver
@@ -115,6 +115,7 @@ public class Zomato {
 				.getText();
 		System.out.println("\nAll no os images shown :" + AllnoShown);
 		List<WebElement> noOfImages = driver.findElements(By.xpath("//div[@class='sc-bke1zw-0 fIuLDK']/div/div/img"));
+		
 		System.out.println("Actual no of images : " + noOfImages.size());
 
 		// driver.quit();
