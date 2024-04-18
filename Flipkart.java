@@ -20,7 +20,7 @@ import org.openqa.selenium.interactions.Actions;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-public class Flipkartttt {
+public class Flipkart {
 
 	public static void main(String[] args) throws InterruptedException {
 		// TODO Auto-generated method stub
